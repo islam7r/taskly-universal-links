@@ -118,6 +118,7 @@
         const friendCode = match ? match[1] : null;
 
         const contentDiv = document.getElementById('content');
+        const appStoreLink = 'https://apps.apple.com/tr/app/taskly-turn-to-do-into-ta-da/id6739545439';
 
         if (friendCode) {
             // Show friend invite page
@@ -132,7 +133,7 @@
                     <a href="taskly://add-friend?code=${friendCode}" class="button">
                         Open in Taskly
                     </a>
-                    <a href="https://apps.apple.com/app/taskly" class="button secondary">
+                    <a href="${appStoreLink}" class="button secondary">
                         Download Taskly
                     </a>
                 </div>
@@ -157,10 +158,10 @@
             // Show main landing page
             contentDiv.innerHTML = `
                 <p>Stay organized and achieve your goals with Taskly.</p>
-                <p>The smart task management app for iOS.</p>
+                <p>Turn your to-dos into ta-das! 🎯</p>
                 
                 <div class="buttons">
-                    <a href="https://apps.apple.com/app/taskly" class="button">
+                    <a href="${appStoreLink}" class="button">
                         Download on App Store
                     </a>
                 </div>
