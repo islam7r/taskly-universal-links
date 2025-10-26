@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Taskly - Join Your Friend</title>
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root{
+      --bg-top: #0b1216;
+      --bg-bottom: #1a2a33;
+      --glass: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.18);
+      --text-main: #eaf1f4;
+      --text-sub: #9fb0b9;
+      --accent: #29F387;
+      --shadow: rgba(0,0,0,.35);
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg-top: #eaf3f7;
+        --bg-bottom: #d7e3ea;
+        --glass: rgba(255,255,255,.6);
+        --stroke: rgba(0,0,0,.08);
+        --text-main: #0e171b;
+        --text-sub: #5b707a;
+        --shadow: rgba(0,0,0,.16);
+      }
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text-main);
+      background:
+        radial-gradient(1200px 800px at 85% -10%, rgba(41,243,135,.18), transparent 60%),
+        radial-gradient(900px 700px at -10% 110%, rgba(41,243,135,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+      display:flex;align-items:center;justify-content:center;
+      padding:24px;
+    }
+
+    .container{
+      width:100%;max-width:520px;
+      border-radius: var(--radius-xl);
+      background: var(--glass);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(14px) saturate(120%);
+      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      padding: 28px 24px 26px;
+      box-shadow:
+        0 20px 50px var(--shadow),
+        inset 0 1px 0 rgba(255,255,255,.06);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .container::before{
+      content:"";
+      position:absolute; left:12px; right:12px; top:0;
+      height:3px; border-radius:999px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity:.85;
+    }
+
+    .icon{
+      width:64px;height:64px;display:grid;place-items:center;
+      margin: 6px auto 14px auto;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, var(--accent), var(--accent)) padding-box,
+                  conic-gradient(from 180deg, rgba(255,255,255,.35), rgba(255,255,255,0)) border-box;
+      border: 2px solid transparent;
+      box-shadow: 0 10px 30px rgba(41,243,135,.35);
+      color:#0a0a0a; font-size:28px; font-weight:800;
+    }
+
+    h1{
+      font-size: clamp(24px, 4.5vw, 32px);
+      line-height:1.15;
+      font-weight:800;
+      letter-spacing:.2px;
+      text-align:center;
+      margin-bottom:8px;
+    }
+
+    p{
+      font-size: 15px;
+      line-height:1.6;
+      color: var(--text-sub);
+      text-align:center;
+    }
+
+    .friend-code{
+      margin: 18px auto 14px;
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 14px 18px;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border:1px solid var(--stroke);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+      color: var(--text-main);
+      font: 700 22px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 4px;
+      min-width: 220px;
+    }
+
+    .buttons{
+      display:flex;flex-direction:column;gap:10px;margin-top:18px;
+    }
+    .button{
+      appearance:none;border:none;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      text-decoration:none;
+      transition: transform .12s ease, box-shadow .12s ease, background .2s ease;
+      will-change: transform;
+    }
+    .button.primary{
+      background: var(--accent);
+      color:#0b0b0b;
+      box-shadow: 0 10px 22px rgba(41,243,135,.35);
+    }
+    .button.primary:hover{ transform: translateY(-1px); box-shadow: 0 14px 26px rgba(41,243,135,.42); }
+    .button.primary:active{ transform: translateY(0); }
+
+    .button.secondary{
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      color: var(--text-main);
+      border:1px solid var(--stroke);
+    }
+    .button.secondary:hover{ transform: translateY(-1px); }
+    .button.secondary:active{ transform: translateY(0); }
+
+    .steps{
+      margin-top:20px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border:1px solid var(--stroke);
+      padding:18px;
+    }
+    .steps h3{
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing:.8px;
+      color: var(--text-sub);
+      margin-bottom:10px;
+    }
+    .steps ol{ padding-left: 18px; }
+    .steps li{
+      color: var(--text-main);
+      margin: 8px 0;
+      line-height:1.5;
+    }
+
+    #content > p:first-child{ margin-bottom: 6px; }
+    #content > .buttons + .steps{ margin-top: 18px; }
+
+    .stack{ display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:16px; }
+
+    @media (prefers-reduced-motion: reduce){
+      .button{ transition:none }
+      .container{ box-shadow: 0 12px 30px var(--shadow); }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main">
+    <div class="icon" aria-hidden="true">✓</div>
+    <h1>Join Taskly</h1>
+    <div id="content" aria-live="polite"></div>
+  </main>
+
+  <script>
+    // GitHub Pages serves this as 404 for missing routes
+    const path = window.location.pathname;
+    const match = path.match(/\/add-friend\/([A-Z0-9]+)/i);
+    const friendCode = match ? match[1] : null;
+
+    const contentDiv = document.getElementById('content');
+    const appStoreLink = 'https://apps.apple.com/tr/app/taskly-turn-to-do-into-ta-da/id6739545439';
+
+    if (friendCode) {
+      // Show friend invite with the beautiful design
+      contentDiv.innerHTML = `
+        <p>You've been invited to connect on Taskly.</p>
+        <div class="friend-code">${friendCode}</div>
+        <p>Open this link in the Taskly app to automatically add your friend.</p>
+
+        <div class="buttons">
+          <a href="taskly://add-friend?code=${friendCode}" class="button primary">Open in Taskly</a>
+          <a href="${appStoreLink}" class="button secondary">Download Taskly</a>
+        </div>
+
+        <div class="steps">
+          <h3>Don't have Taskly yet?</h3>
+          <ol>
+            <li>Download Taskly from the App Store</li>
+            <li>Create your account</li>
+            <li>Go to "Add Friend" and enter: <strong>${friendCode}</strong></li>
+          </ol>
+        </div>
+      `;
+
+      // Try to open the app automatically on iOS
+      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        setTimeout(() => { window.location = `taskly://add-friend?code=${friendCode}`; }, 100);
+      }
+    } else {
+      // If no friend code, redirect to homepage
+      window.location.replace("https://apptaskly.com/");
+    }
+  </script>
+</body>
+</html>
