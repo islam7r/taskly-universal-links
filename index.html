@@ -3,46 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskly - Add Friend</title>
+    <title>Taskly - Join Your Friend</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            text-align: center;
             padding: 20px;
         }
         .container {
-            max-width: 400px;
+            max-width: 450px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
-        h1 { font-size: 2.5em; margin-bottom: 0.5em; }
-        p { font-size: 1.2em; margin-bottom: 2em; }
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        .friend-code {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1.8em;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin: 24px 0;
+            font-family: 'Courier New', monospace;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 16px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        .buttons {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
         .button {
             display: inline-block;
-            padding: 15px 30px;
+            padding: 16px 32px;
             background: white;
             color: #667eea;
             text-decoration: none;
             border-radius: 25px;
-            font-weight: bold;
-            transition: transform 0.2s;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-        .button:hover { transform: scale(1.05); }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        .button.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .steps {
+            margin-top: 32px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            border-radius: 16px;
+        }
+        .steps h3 {
+            margin-bottom: 16px;
+            font-size: 1.2em;
+        }
+        .steps ol {
+            padding-left: 20px;
+        }
+        .steps li {
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>✨ Taskly</h1>
-        <p>Get organized and stay on top of your tasks!</p>
-        <a href="https://apps.apple.com/app/taskly" class="button">Download on App Store</a>
-        <p style="font-size: 0.9em; margin-top: 3em; opacity: 0.8;">
-            Have the app? Your friend invite link will open it automatically.
-        </p>
+        <div class="icon">✨</div>
+        <h1>Join Taskly!</h1>
+        
+        <div id="content">
+            <!-- Content will be inserted by JavaScript -->
+        </div>
     </div>
+
+    <script>
+        // Parse the URL to get friend code
+        const path = window.location.pathname;
+        const match = path.match(/\/add-friend\/([A-Z0-9]+)/i);
+        const friendCode = match ? match[1] : null;
+
+        const contentDiv = document.getElementById('content');
+
+        if (friendCode) {
+            // Show friend invite page
+            contentDiv.innerHTML = `
+                <p>You've been invited to connect on Taskly!</p>
+                
+                <div class="friend-code">${friendCode}</div>
+                
+                <p>Open this link in the Taskly app to automatically add your friend.</p>
+                
+                <div class="buttons">
+                    <a href="taskly://add-friend?code=${friendCode}" class="button">
+                        Open in Taskly
+                    </a>
+                    <a href="https://apps.apple.com/app/taskly" class="button secondary">
+                        Download Taskly
+                    </a>
+                </div>
+                
+                <div class="steps">
+                    <h3>Don't have Taskly yet?</h3>
+                    <ol>
+                        <li>Download Taskly from the App Store</li>
+                        <li>Create your account</li>
+                        <li>Go to Add Friend and enter code: <strong>${friendCode}</strong></li>
+                    </ol>
+                </div>
+            `;
+
+            // Try to open the app automatically on iOS
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                setTimeout(() => {
+                    window.location = `taskly://add-friend?code=${friendCode}`;
+                }, 100);
+            }
+        } else {
+            // Show main landing page
+            contentDiv.innerHTML = `
+                <p>Stay organized and achieve your goals with Taskly.</p>
+                <p>The smart task management app for iOS.</p>
+                
+                <div class="buttons">
+                    <a href="https://apps.apple.com/app/taskly" class="button">
+                        Download on App Store
+                    </a>
+                </div>
+            `;
+        }
+    </script>
 </body>
 </html>
