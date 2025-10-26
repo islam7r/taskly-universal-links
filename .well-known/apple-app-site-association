@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "48J9FY5YPX.com.islamrzayev.Taskly",
+        "components": [
+          {
+            "/": "/add-friend/*"
+          }
+        ]
+      }
+    ]
+  }
+}
